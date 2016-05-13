@@ -3,11 +3,12 @@
 <body>
 <table border=1>
 <thead>
-<td>Name</td><td>Address</td><td>city</td><td>Pincode</td>
+<td>Name</td><td>Address</td><td>city</td><td>Pincode</td><td>status</td>
 </thead>
 {% for row in rows %}
 <tr>
 <td>{{row.name}}</td><td>{{row.addr}}</td><td>{{row.city}}</td><td>{{row.pin}}</td>
+    <td><input type="button" value="delete" >|<input type="button" value="update"></td>
 </tr>
 {% endfor%}
 </table>

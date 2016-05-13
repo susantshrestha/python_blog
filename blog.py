@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from connect import connection
-import MySQLdb
+# import MySQLdb
 
 app = Flask(__name__)
 
@@ -43,8 +43,6 @@ def addrec():
                            % (name, addr, city, pin))
             db.commit()
             cursor.close()
-            # return redirect(url_for('home'))
-            # db.close()
             msg = "Record successfully added"
         except:
             db.rollback()
