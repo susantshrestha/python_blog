@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from connect import connection
+import MySQLdb
 
 app = Flask(__name__)
 
@@ -49,8 +50,20 @@ def addrec():
             db.rollback()
             msg = "error in insert operation"
         finally:
-            return render_template("result.html",msg=msg)
+            return render_template("result.html", msg=msg)
             db.close()
+
+
+@app.route('/list/')
+def list():
+    cursor, db = connection()
+    print 'connected '
+    # db.row_factory = MySQLdb.Row
+    cursor.execute("""select * from students""")
+    rows = [dict(name=row[0], addr=row[1], city=row[2], pin=row[3]) for row in cursor.fetchall()]
+    return render_template("list.html", rows=rows)
+    cursor.close()
+    db.close()
 
 
 if __name__ == '__main__':
