@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from connect import connection
-# import MySQLdb
+
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def home():
 @app.route('/enternew/', methods=['get', 'post'])
 def new_student():
     return render_template('student.html')
-
+# import MySQLdb
 
 # connection to the database
 @app.route('/register')
@@ -56,12 +56,28 @@ def addrec():
 def list():
     cursor, db = connection()
     print 'connected '
-    # db.row_factory = MySQLdb.Row
     cursor.execute("""select * from students""")
     rows = [dict(name=row[0], addr=row[1], city=row[2], pin=row[3]) for row in cursor.fetchall()]
     return render_template("list.html", rows=rows)
     cursor.close()
     db.close()
+
+@app.route('/delete', methods=['GET', 'POST'])
+def delete_entry():
+    if request.method == 'POST':
+        print 'connected to deleted'
+        try:
+            db, cursor = connection()
+            db.execute('delete from students '.format(str((request.form['delete']))))
+            db.commit()
+            # msg= 'Gone. Entry deleted.'
+        except:
+            db.rollback()
+            msg = "error in delete operation"
+        finally:
+            return render_template("result.html")
+            db.close()
+
 
 
 if __name__ == '__main__':

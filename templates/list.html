@@ -8,7 +8,11 @@
 {% for row in rows %}
 <tr>
 <td>{{row.name}}</td><td>{{row.addr}}</td><td>{{row.city}}</td><td>{{row.pin}}</td>
-    <td><input type="button" value="delete" >|<input type="button" value="update"></td>
+    <td>
+       <form action="{{ url_for('delete_entry') }}" method="POST">
+           <Button name = "delete" type = "submit" >Delete</Button>
+       </form>
+    </td>
 </tr>
 {% endfor%}
 </table>
